@@ -2,6 +2,14 @@
 
 const { Client, Project, Employee, Tech } = require('./models');
 
+logic().then(() => process.exit())
+
+// DELTING
+async function logic() {
+  const matt = await Employee.findById(4)
+  await matt.destroy()
+}
+
 
 
 Employee.findAll({
