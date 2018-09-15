@@ -5,7 +5,7 @@ module.exports = db.define('project', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-    unieque: true,
+    unique: true,
   },
   startDate: {
     type: Sequelize.DATE
