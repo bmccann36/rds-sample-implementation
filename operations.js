@@ -1,25 +1,57 @@
-const { Client, Project, ClientProject } = require('./models')
-const ClientsData = require('./seedData/clients')
-const ProjectsData = require('./seedData/projects')
+const { Client, Project, Employee } = require('./models');
+const ClientsData = require('./seedData/clients');
+const ProjectsData = require('./seedData/projects');
+const db = require('./_db');
 
 seedData()
 
 async function seedData() {
-  await syncTables()
-  await seedClients()
-  await seedProjects()
-  const project = await Project.findOne({
-    where: { name: 'WheelHouse' }
-  })
-  const client = await Client.findOne({
-    where: { name: 'ACBL' }
-  })
+  await db.sync({ force: true });
 
-  const assWheel = await client.addProject(project)
-  // client.addProject(project)
-  // console.log(assWheel)
+  const acblData = {
+    name: 'ACBL',
+    industry: 'Commercial Shipping',
+    currentlyBilling: true,
+    projects: [{
+      name: 'Mariner',
+      startDate: '2018-01-08 00:00:00',
+    },
+    {
+      name: 'Port Cost Manager',
+      startDate: '2018-01-08 00:00:00',
+    },
+    ],
+  };
 
+  // const createdClient = await Client.create(acblData, {
+  //   include: [Project]
+  // });
+
+  const projectData = {
+    name: 'Rates Engine',
+    startDate: '2018-01-08 00:00:00',
+  };
+
+  const hertzData = {
+    name: 'Hertz',
+    industry: 'Rental Car',
+    currentlyBilling: true,
+    projects: [
+      projectData,
+    ]
+  }
+
+  const createdClient = await Client.create(hertzData, {
+    include: [Project]
+  });
+
+  const foundProject = await Project.findAll({
+    where: { name: 'Rates Engine' }
+  })
+  // console.log(foundProject)
+  Project.
 }
+
 
 
 function seedClients() {
@@ -31,14 +63,5 @@ function seedProjects() {
   return Promise.all(pendingProjectWrites)
 }
 
-function syncTables() {
-  return Client.sync({ force: true })
-    .then(() => {
-      return Project.sync({ force: true })
-    })
-    .then(() => {
-      return ClientProject.sync({ force: true })
-    })
-}
 
 

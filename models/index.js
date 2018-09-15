@@ -1,16 +1,21 @@
-const db = require('../_db')
+
 const Client = require('./client');
 const Project = require('./project');
-const Sequelize = require('sequelize')
-// Project.belongsTo(Client)
-// Client.hasMany(Project)
-const ClientProject = db.define('ClientProject')
+const Employee = require('./employee');
 
-Client.belongsToMany(Project, { through: ClientProject });
+
+// PROJECT ASSOCIATION WITH CLIENTS
+Project.belongsTo(Client);
+Client.hasMany(Project);
+
+
+Employee.belongsToMany(Project, {through: 'employee_project'});
+Project.belongsToMany(Employee, {through: 'employee_project'});
+
 
 
 module.exports = {
   Project,
   Client,
-  ClientProject
+  Employee,
 };
