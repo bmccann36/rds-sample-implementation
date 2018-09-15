@@ -1,4 +1,4 @@
-const { Client, Project, Employee } = require('./models');
+const { Client, Project, Employee, Technology } = require('./models');
 const ClientsData = require('./seedData/clients');
 const ProjectsData = require('./seedData/projects');
 const db = require('./_db');
@@ -49,7 +49,17 @@ async function seedData() {
     where: { name: 'Rates Engine' }
   })
   // console.log(foundProject)
-  Project.
+  const brian = await Employee.create({ name: 'Brian'})
+  brian.addProject(foundProject);
+  // console.log(foundProject)
+
+  const tech = await Technology.create({
+    name: 'typescript',
+    type: 'programming language'
+  })
+
+  tech.addProject(foundProject);
+
 }
 
 
