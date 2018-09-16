@@ -2,7 +2,11 @@
 
 const { Client, Project, Employee, Tech } = require('./models');
 
-logic().then(() => process.exit())
+// logic().then(() => process.exit())
+// deleteClient().then(() => process.exit())
+
+findEmployeesWhere().then(() => process.exit())
+
 
 // DELTING
 async function logic() {
@@ -10,28 +14,35 @@ async function logic() {
   await matt.destroy()
 }
 
+// DELETE CLIENT
+async function deleteClient() {
+  const acbl = await Client.findById(1);
+  await acbl.destroy();
+}
 
-
-Employee.findAll({
-  raw: true,
-  include: [
-    {
-      model: Tech,
-      where: {
-        name: 'Angular'
-      }
-    },
+// finding on association
+async function findEmployeesWhere() {
+  return Employee.findAll({
+    raw: true,
+    include: [
+    //   {
+    //     model: Tech,
+    //     where: {
+    //       name: 'Angular'
+    //     }
+    //   },
     {
       model: Project,
       where: {
         name: 'Mariner'
       }
     }
-  ]
-}
-)
-  .then(res => {
-    console.log(res)
+    ]
   })
+    .then(res => {
+       return console.log(res)
+    })
+}
+
 
 

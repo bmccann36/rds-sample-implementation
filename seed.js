@@ -17,7 +17,6 @@ seedData()
 async function seedData() {
 
   await db.sync({ force: true });
-
   await seedEmployees();
   await seedClients();
   await seedTechnologies();
